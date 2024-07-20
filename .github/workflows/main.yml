@@ -46,7 +46,7 @@ jobs:
        run: echo "${{ secrets.KUBE_CONFIG }}" > $HOME/.kube/config
        
      - name: Verify kubeconfig
-       run: |
+       run: | 
         kubectl config view
         kubectl cluster-info
         kubectl get nodes
