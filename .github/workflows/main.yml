@@ -44,6 +44,10 @@ jobs:
        
      - name: Set up Kubeconfig
        run: echo "${{ secrets.KUBE_CONFIG }}" > $HOME/.kube/config
+     - name: Check API Server Connectivity
+       run: |
+          curl -k https://172.31.39.119:6443
+
 
      - name: Deploy to Kubernetes 
        run: |
