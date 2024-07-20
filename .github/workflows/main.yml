@@ -18,12 +18,12 @@ jobs:
           fetch-depth: 0 
      
       - name: containeration
-        run: docker build -t ajjurathod1998/Wisecow .
+        run: docker build -t ajjurathod1998/wisecow .
 
       - name: docker login
         run: docker login -u ajjurathod1998 -p ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: pushing to dockerhub
-        run : docker push ajjurathod1998/Wisecow
+        run : docker push ajjurathod1998/wisecow
         env:
             DOCKER_CLI_ACI: 1
