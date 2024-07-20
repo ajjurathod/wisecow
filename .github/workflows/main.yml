@@ -40,11 +40,16 @@ jobs:
          version: 'latest'
          
      - name: Create .kube directory
-       run: mkdir -p $HOME/.kube 
+       run: mkdir -p $HOME/.kube  
        
      - name: Set up Kubeconfig
        run: echo "${{ secrets.KUBE_CONFIG }}" > $HOME/.kube/config
-    
+       
+     - name: Verify kubeconfig
+       run: |
+        kubectl config view
+        kubectl cluster-info
+        kubectl get nodes
 
 
      - name: Deploy to Kubernetes 
