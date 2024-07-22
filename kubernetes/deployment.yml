@@ -16,4 +16,4 @@ spec:
       - name: wisecow
         image: ajjurathod1998/wisecow
         ports:
-        - containerPort: 80
+        - containerPort: 4499
