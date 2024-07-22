@@ -42,7 +42,7 @@ jobs:
      - name: Create .kube directory
        run: mkdir -p $HOME/.kube 
             
-       
+        
      - name: Set up Kubeconfig
        run:
            echo "${{ secrets.KUBE_CONFIG }}" > $HOME/.kube/config 
