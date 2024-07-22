@@ -4,7 +4,8 @@ on:
   push:
     branches:
       - main
-
+env:
+    KUBECONFIG: /home/ubuntu/kubeconfig
 
 jobs:
   build:
