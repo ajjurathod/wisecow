@@ -45,7 +45,7 @@ jobs:
        run: echo "${{ secrets.KUBE_CONFIG }}" | wc -c    
         
      - name: Set up Kubeconfig
-       run: echo $"{{ secrets.KUBE_CONFIG }}" |  --decode > $HOME/.kube/config 
+       run: echo $"{{ secrets.KUBE_CONFIG }}" |  base64 --decode > $HOME/.kube/config 
            
  
      - name: Use context
