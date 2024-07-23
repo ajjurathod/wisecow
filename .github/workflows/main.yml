@@ -42,10 +42,10 @@ jobs:
      - name: Create .kube directory
        run: mkdir -p $HOME/.kube 
      - name: Debug Kubeconfig Secret
-       run: echo "${{ secrets.KUBE_CONFIG }}" | wc -c    
+       run: echo "${{ secrets.KUBE_CONFIG_DATA }}" | wc -c    
         
      - name: Set up Kubeconfig
-       run: echo $"{{ secrets.KUBE_CONFIG }}" |  base64 --decode > $HOME/.kube/config 
+       run: echo $"{{ secrets.KUBE_CONFIG_DATA }}" |  base64 --decode > $HOME/.kube/config 
            
  
      - name: Use context
