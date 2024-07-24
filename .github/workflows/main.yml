@@ -40,10 +40,10 @@ jobs:
 
       - name: Set up Kubernetes config
         env:
-          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+          KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
         run: |
           mkdir -p $HOME/.kube
-          echo "$KUBE_CONFIG_DATA" | tr -d '\n' | base64 --decode > $HOME/.kube/config
+          echo "$KUBE_CONFIG" | tr -d '\n' | base64 --decode > $HOME/.kube/config
           echo "KUBECONFIG: $KUBECONFIG" # Debugging line
           cat $HOME/.kube/config # For debugging, you can remove this line after confirming the content
 
