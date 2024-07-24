@@ -32,7 +32,7 @@ jobs:
       needs: build 
       steps:
        - name: Deploy to Kubernetes
-         run: kubectl apply -f kubernetes/deployment.yaml
+         run: kubectl apply -f deployment.yaml
          env:
            KUBECONFIG: ${{ secrets.KUBE_CONFIG_DATA }}
       
