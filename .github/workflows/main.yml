@@ -5,41 +5,50 @@ on:
     branches:
       - main
 
-
 jobs:
   build:
-    name: build 
+    name: Build and Push Docker Image
     runs-on: ubuntu-latest
     
-    steps: 
-      - name: Code checkout
+    steps:
+      - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0  
      
-      - name: containeration
-        run: docker build -t ajjurathod1998/wisecow . 
+      - name: Build Docker image
+        run: docker build -t ajjurathod1998/wisecow .
 
-      - name: docker login
-        run: docker login -u ajjurathod1998 -p ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Log in to DockerHub
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u ajjurathod1998 --password-stdin
 
-      - name: pushing to dockerhub 
-        run : docker push ajjurathod1998/wisecow
+      - name: Push Docker image to DockerHub
+        run: docker push ajjurathod1998/wisecow
         env:
-            DOCKER_CLI_ACI: 1
-  deploy:
-      runs-on: ubuntu-latest
-      needs: build 
-      steps:
-        - name: Set up Kubernetes config
-          env:
-           KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
-          run: |
-           mkdir -p $HOME/.kube
-           echo "$KUBE_CONFIG_DATA" | tr -d '\n' | base64 --decode > $HOME/.kube/config
-           cat $HOME/.kube/config # For debugging, you can remove this line after confirming the content
+          DOCKER_CLI_ACI: 1
 
-        - name: Apply Kubernetes manifests
-          run:
-              kubectl apply -f deployment.yml 
-              kubectl apply -f service.yml
+  deploy:
+    name: Deploy to Kubernetes
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Kubernetes config
+        env:
+          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+        run: |
+          mkdir -p $HOME/.kube
+          echo "$KUBE_CONFIG_DATA" | tr -d '\n' | base64 --decode > $HOME/.kube/config
+          cat $HOME/.kube/config # For debugging, you can remove this line after confirming the content
+
+      - name: Apply Kubernetes manifests
+        run: |
+          kubectl apply -f deployment.yml
+          kubectl apply -f service.yml
+        env:
+          KUBECONFIG: $HOME/.kube/config
