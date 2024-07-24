@@ -54,5 +54,5 @@ jobs:
           kubectl apply -f deployment.yml --validate=false
           kubectl apply -f service.yml --validate=false
         env:
-          KUBECONFIG: $HOME/.kube/config
+          KUBECONFIG: $HOME/.kube/config  
 
