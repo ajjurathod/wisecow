@@ -44,11 +44,15 @@ jobs:
         run: |
           mkdir -p $HOME/.kube
           echo "$KUBE_CONFIG_DATA" | tr -d '\n' | base64 --decode > $HOME/.kube/config
+          echo "KUBECONFIG: $KUBECONFIG" # Debugging line
           cat $HOME/.kube/config # For debugging, you can remove this line after confirming the content
 
       - name: Apply Kubernetes manifests
         run: |
+          kubectl config view # For debugging, you can remove this line after confirming the content
+          kubectl get nodes # For debugging, you can remove this line after confirming the content
           kubectl apply -f deployment.yml --validate=false
-          kubectl apply -f service.yml  --validate=false
+          kubectl apply -f service.yml --validate=false
         env:
           KUBECONFIG: $HOME/.kube/config
+
