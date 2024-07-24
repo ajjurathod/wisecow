@@ -31,8 +31,13 @@ jobs:
       runs-on: ubuntu-latest
       needs: build 
       steps:
-       - name: Deploy to Kubernetes
-         run: kubectl apply -f deployment.yaml
-         env:
-           KUBECONFIG: ${{ secrets.KUBE_CONFIG_DATA }}
-      
+        - name: Set up Kubernetes config
+          env:
+           KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+          run: |
+           mkdir -p $HOME/.kube
+           echo "$KUBE_CONFIG_DATA" | tr -d '\n' | base64 --decode > $HOME/.kube/config
+           cat $HOME/.kube/config # For debugging, you can remove this line after confirming the content
+
+        - name: Apply Kubernetes manifests
+          run: kubectl apply -f deployment.yaml
